@@ -46,6 +46,8 @@ def setup(args):
     # add_coat_config(cfg)
     add_vit_config(cfg)
     cfg.merge_from_file(args.config_file)
+    cfg.DATASETS.TRAIN = (args.train_dataset,)
+    cfg.DATASETS.TEST = (args.test_dataset,)
     cfg.merge_from_list(args.opts)
     cfg.freeze()
     default_setup(cfg, args)
@@ -57,31 +59,17 @@ def main(args):
     register publaynet first
     """
     register_coco_instances(
-        "publaynet_train",
+        "data_train",
         {},
-        "./publaynet_data/train.json",
-        "./publaynet_data/train"
+        args.train_json,
+        args.train_images
     )
 
     register_coco_instances(
-        "publaynet_val",
+        "data_val",
         {},
-        "./publaynet_data/val.json",
-        "./publaynet_data/val"
-    )
-
-    register_coco_instances(
-        "icdar2019_train",
-        {},
-        "data/train.json",
-        "data/train"
-    )
-
-    register_coco_instances(
-        "icdar2019_test",
-        {},
-        "data/test.json",
-        "data/test"
+        args.val_json,
+        args.val_images
     )
 
     cfg = setup(args)
@@ -102,6 +90,12 @@ def main(args):
 if __name__ == "__main__":
     parser = default_argument_parser()
     parser.add_argument("--debug", action="store_true", help="enable debug mode")
+    parser.add_argument("--train_dataset", help="Train dataset name", default="data_train")
+    parser.add_argument("--test_dataset", help="Test dataset name", default="data_val")
+    parser.add_argument("--train_json", help="Training JSON")
+    parser.add_argument("--train_images", help="Training images directory")
+    parser.add_argument("--val_json", help="Validation JSON")
+    parser.add_argument("--val_images", help="Validation images directory")
     args = parser.parse_args()
     print("Command Line Args:", args)
 
