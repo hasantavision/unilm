@@ -37,6 +37,11 @@ def main():
         default=[],
         nargs=argparse.REMAINDER,
     )
+    parser.add_argument(
+        "--labels",
+        help="List of thing classes for detection",
+        nargs='+',
+        type=str)
 
     args = parser.parse_args()
 
@@ -59,10 +64,10 @@ def main():
     img = cv2.imread(args.image_path)
 
     md = MetadataCatalog.get(cfg.DATASETS.TEST[0])
-    if cfg.DATASETS.TEST[0]=='icdar2019_test':
-        md.set(thing_classes=["table"])
+    if args.labels:
+        md.set(thing_classes=args.labels)
     else:
-        md.set(thing_classes=["text","title","list","table","figure"])
+        md.set(thing_classes=["text", "title", "list", "table", "figure"])
 
     output = predictor(img)["instances"]
     v = Visualizer(img[:, :, ::-1],
