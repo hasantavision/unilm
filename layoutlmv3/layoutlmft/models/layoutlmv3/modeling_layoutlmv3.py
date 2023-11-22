@@ -641,7 +641,8 @@ class LayoutLMv3Encoder(nn.Module):
                     past_key_value,
                     output_attentions,
                     rel_pos,
-                    rel_2d_pos
+                    rel_2d_pos,
+                    use_reentrant=False
                 )
             else:
                 layer_outputs = layer_module(
