@@ -47,7 +47,7 @@ def setup(args):
     add_vit_config(cfg)
     cfg.merge_from_file(args.config_file)
     cfg.DATASETS.TRAIN = (args.train_dataset,)
-    cfg.DATASETS.TEST = (args.test_dataset,)
+    cfg.DATASETS.TEST = (args.val_dataset,)
     cfg.merge_from_list(args.opts)
     cfg.freeze()
     default_setup(cfg, args)
