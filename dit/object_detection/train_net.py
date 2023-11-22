@@ -59,14 +59,14 @@ def main(args):
     register publaynet first
     """
     register_coco_instances(
-        "data_train",
+        args.train_dataset,
         {},
         args.train_json,
         args.train_images
     )
 
     register_coco_instances(
-        "data_val",
+        args.val_dataset,
         {},
         args.val_json,
         args.val_images
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     parser = default_argument_parser()
     parser.add_argument("--debug", action="store_true", help="enable debug mode")
     parser.add_argument("--train_dataset", help="Train dataset name", default="data_train")
-    parser.add_argument("--test_dataset", help="Test dataset name", default="data_val")
+    parser.add_argument("--val_dataset", help="Test dataset name", default="data_val")
     parser.add_argument("--train_json", help="Training JSON")
     parser.add_argument("--train_images", help="Training images directory")
     parser.add_argument("--val_json", help="Validation JSON")
